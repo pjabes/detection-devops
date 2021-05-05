@@ -16,3 +16,6 @@ def test_detection_has_intent():
 
 def test_detection_has_enabled_state():
     assert detection['enabled']
+
+def test_detection_has_type():
+    assert detection['type']
