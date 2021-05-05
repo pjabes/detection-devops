@@ -10,6 +10,14 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.8'
+
+- script: pip install pytest
+
+- script: python -m pytest
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
