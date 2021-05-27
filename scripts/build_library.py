@@ -10,11 +10,9 @@ Detection Type: {{ type }}
 Author: {{ author }}
 Created: {{ created }}
 Last Updated: {{ last_updated }}
-
 ---
 
 ## Dependencies
-
 
 """
 with open("../detections/DetectDNSRequestsToPhishingSites.yaml") as file:
