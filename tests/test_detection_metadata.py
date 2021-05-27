@@ -6,16 +6,16 @@ import pytest
 import os
 import yaml
 
-detection = yaml.safe_load(open("detections/DetectDNSRequestsToPhishingSites.yaml", "r"))
+detection_config = yaml.safe_load(open("detections/DetectDNSRequestsToPhishingSites.yaml", "r"))
 
-def test_detection_has_friendly_name():
-    assert detection['friendly_name']
+def test_detection_config_has_friendly_name():
+    assert detection_config['detection']['friendly_name']
 
-def test_detection_has_intent():
-    assert detection['description']
+def test_detection_config_has_intent():
+    assert detection_config['detection']['description']
 
-def test_detection_has_enabled_state():
-    assert detection['enabled']
+def test_detection_config_has_state():
+    assert detection_config['state']
 
-def test_detection_has_type():
-    assert detection['type']
+def test_detection_config_has_type():
+    assert detection_config['detection']['type']
