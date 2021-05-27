@@ -1,0 +1,27 @@
+
+id: 1
+author: "Patrick Abraham @pjabes2"
+created: "14/01/2020"
+state: "enabled"
+
+detection:
+    type: "SIEM"
+    friendly_name: "Endpoint - Detect Mimikatz Process Creation"
+    description: "This detection is used to detect Windows process creation with well-known Mimikatz process names."
+    intention: "Mimikatz is a leading post-exploitation tool that dumps passwords from memory, as well as hashes, PINs and Kerberos tickets and usage is a high fidelity indicator adversary action."
+    known_falsepositives: 
+        - "None"
+    blindspots:
+        - "For the limited scope of this detection, only process names matching Mimikatz are searched again."
+        - "Not all of the endpoints have process creation events on them."
+    dependencies:
+        LPs: 
+            - "LP_0001_windows_audit_process_creation.yml"
+        HPs: 
+            - ""
+    references:
+        - https://neil-fox.github.io/Mimikatz-usage-&-detection/
+        - https://github.com/gentilkiwi/mimikatz
+    detection_logic: ' Perf | where ObjectName == "Process" and CounterName == "% Processor Time" | where InstanceName contains "mimikatz" | summarize Running_Instances = dcount(InstanceName) by Computer'
+
+# Response
