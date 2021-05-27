@@ -1,15 +1,27 @@
-# Metadata
-friendly_name: "ESCU - Detect Long DNS TXT Record Response"
-author: "Patrick Abraham @pjabes"
-created: "01/01/2020"
-type: "SIEM"
-description: "This search is used to detect attempts to use DNS tunneling, by calculating the length of responses to DNS TXT queries. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting unusually large volumes of DNS traffic. Deprecated because this detection should focus on DNS queries instead of DNS responses."
-last_updated: 20-12-2020
-references:
-    - https://google.com
-    - https://yahoo.com
 
+id: 1
+author: "Patrick Abraham @pjabes2"
+created: "14/01/2020"
+state: "enabled"
 
-required_logging_policies: "LP_0001_windows_audit_process_creation.yml"
-enabled: true,
-search: "index=stream earliest= sourcetype=stream:dns index_earliest= index_latest="
+detection:
+    type: "SIEM"
+    friendly_name: "Endpoint - Detect Mimikatz Process Creation"
+    description: "This detection is used to detect Windows process creation with well-known Mimikatz process names."
+    intention: "Mimikatz is a leading post-exploitation tool that dumps passwords from memory, as well as hashes, PINs and Kerberos tickets and usage is a high fidelity indicator adversary action."
+    known_falsepositives: 
+        - "None"
+    blindspots:
+        - "For the limited scope of this detection, only process names matching Mimikatz are searched again."
+        - "Not all of the endpoints have process creation events on them."
+    dependencies:
+        LPs: 
+            - "LP_0001_windows_audit_process_creation.yml"
+        HPs: 
+            - ""
+    references:
+        - https://neil-fox.github.io/Mimikatz-usage-&-detection/
+        - https://github.com/gentilkiwi/mimikatz
+    detection-logic: ' Perf | where ObjectName == "Process" and CounterName == "% Processor Time" | where InstanceName contains "mimikatz" | summarize Running_Instances = dcount(InstanceName) by Computer'
+
+# Response
